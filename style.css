@@ -1,5 +1,10 @@
+body {
+  margin: 0 0 0 0;
+}
+
 .wrapper {
   display: flex;
+  margin: 10px 10px;
 }
 
 .stats {
@@ -11,4 +16,25 @@
   width: fit-content;
   height: fit-content;
   font-size: xx-large;
+}
+
+#right, #left {
+  width: 350px;
+  height: 500px;
+  position: absolute;
+}
+
+#right {
+  background-color: rgb(187, 22, 30);
+  left: 360px;
+  display: none;
+}
+
+#left {
+  background-color: rgb(187, 22, 30);
+  display: none;
+}
+
+.hidden {
+
 }

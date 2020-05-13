@@ -3,28 +3,22 @@ class Game {
   constructor(name){
     this.name = name;
     this.board = new Board(700, 500)
-    this.setBoardElements();
     this.setGameEventListener();
     console.log("pong")
     
   }
 
-  setBoardElements = () => {
-    this.board.render();
-    this.board.setNames();
-  }
-
  
   startGame = () => {
+    // start initializing game aspects....
     this.board.boardPlay()
-    // start initializing classes....
-
+    this.board.setNames();
   }
 
   setGameEventListener = () => {
     let button = document.getElementById('btn')
     const eventType = 'click';
-    button.addEventListener(eventType, this.startGame)
+    button.addEventListener(eventType, this.startGame) // clicing this, starts the game
   }
 
 
@@ -37,8 +31,8 @@ class Board {
     this.canvas = document.querySelector("canvas")
     this.ctx = this.canvas.getContext("2d");
     this.ball = new Ball(this.ctx, [350, 250], 2)
-    this.paddle = new Paddle(this.ctx, "w", "s", [0, 10], "Habib");
-    this.paddle2 = new Paddle(this.ctx, "o", "l", [680, 10], "Hugo");
+    this.paddle = new Paddle(this.ctx, "w", "s", [0, 230], "Habib");
+    this.paddle2 = new Paddle(this.ctx, "o", "l", [680, 230], "Hugo");
     this.player1Score = 0;
     this.player2Score = 0;
   }
@@ -61,6 +55,13 @@ class Board {
   }
 
   boardPhys = () => {
+
+    if(this.ball.ballPos[0] >= this.width || this.ball.ballPos[0] <= 0) {
+      this.ball.vx = -this.ball.vx;
+    }
+
+
+    
     if (this.ball.ballPos[1] >= this.height || this.ball.ballPos[1] <= 0) {
       this.ball.vy = -this.ball.vy;
     }
@@ -102,17 +103,21 @@ class Board {
 
   checkForPoints = () => {
     if (this.ball.ballPos[0] >= this.width) {
+      this.blinkRed("right")
       this.player1Score += 1
       document.getElementById("player1Score").textContent = this.player1Score
-      this.resetBallPos()
-      this.syncSetTimeout(()=>{}, 500)
+      
+      //this.resetBallPos()
+      //this.syncSetTimeout(()=>{}, 500)
     }
 
     if (this.ball.ballPos[0] <= 0) {
+      this.blinkRed("left")
       this.player2Score += 1
       document.getElementById("player2Score").textContent = this.player2Score
-      this.resetBallPos()
-      this.syncSetTimeout(()=>{}, 500)
+      
+      //this.resetBallPos()
+      //this.syncSetTimeout(()=>{}, 500)
 
     }
   }
@@ -126,6 +131,16 @@ class Board {
     const actual = Date.now(); // number that represents ms
     while(Date.now() - actual < delay) {} // new snapshot fo the this ms - initial
     fn();
+  }
+
+  blinkRed = (id) => {
+    var f = document.getElementById(id);
+    setTimeout(function() {
+      f.style.display = (f.style.display == 'none' ? 'inline' : 'inline');
+    }, 100);
+    setTimeout(function() {
+      f.style.display = (f.style.display == 'none' ? '' : 'none');
+    }, 200);
   }
 
 
