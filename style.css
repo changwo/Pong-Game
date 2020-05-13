@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+}
+
+.stats {
+  justify-content: space-between;
+  width: 700px;
+}
+
+#btn {
+  width: fit-content;
+  height: fit-content;
+  font-size: xx-large;
+}
